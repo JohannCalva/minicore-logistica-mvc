@@ -50,6 +50,7 @@ function agruparPorRepartidor(envios) {
         cantidadEnvios: 0,
         totalKg: 0,
         zonas: new Set(),
+        tarifas: new Set(),
         costoTotal: 0,
       };
     }
@@ -57,6 +58,7 @@ function agruparPorRepartidor(envios) {
     grupos[id].cantidadEnvios += 1;
     grupos[id].totalKg += Number(envio.peso_kg);
     grupos[id].zonas.add(zona.nombre_zona);
+    grupos[id].tarifas.add(zona.tarifa_por_kg);
     grupos[id].costoTotal += costoEnvio;
   }
 
@@ -64,6 +66,7 @@ function agruparPorRepartidor(envios) {
   return Object.values(grupos).map((g) => ({
     ...g,
     zonas: Array.from(g.zonas).join(", "),
+    tarifas: Array.from(g.tarifas).map((t) => `$${t}`).join(", "),
     totalKg: g.totalKg.toFixed(2),
     costoTotal: g.costoTotal.toFixed(2),
   }));
